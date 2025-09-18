@@ -3,7 +3,8 @@ import java.io.*;
 public class Tester {
     public static void main(String[] args) throws IOException {
         // createTestRepos();
-        removeTestRepos();
+        // removeTestRepos();
+        Git.initializeRepo("");
     }
 
     public static void createTestRepos() throws IOException {

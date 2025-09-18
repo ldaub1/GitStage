@@ -6,6 +6,8 @@ public class Git {
     /// WITH OBJECTS FOLDER AND INDEX FILE
     ///
     public static void initializeRepo(String repoPath) throws IOException {
+        if (repoPath.equals(""))
+            System.out.println("Can't Name Repository An Empty String");
         Utils.makeDir(repoPath);
 
         if (!Utils.makeDir(repoPath + "/git")) {
@@ -18,6 +20,10 @@ public class Git {
         System.out.println("Git Repository Created");
     }
 
+    ///
+    /// DELETES REPOSITORY AT GIVEN PATH
+    /// RETURNS FALSE IF REPOSITORY NOT FOUND
+    ///
     public static void deleteRepo(String repoPath) throws IOException {
         if (!Utils.deleteDirectory(repoPath)) {
             System.out.println("Repository Does Not Exist");
