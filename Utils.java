@@ -81,11 +81,52 @@ public class Utils {
     /// DELETES THE FILE AT THE GIVEN PATH
     /// RETURNS FALSE IF FILE NOT FOUND
     ///
-    public static boolean delete(String path) throws IOException {
+    public static boolean deleteFile(String path) throws IOException {
         File file = new File(path);
         if (!file.exists())
             return false;
         file.delete();
         return true;
+    }
+
+    ///
+    /// DELETES THE GIVEN FILE
+    /// RETURNS FALSE IF FILE NOT FOUND
+    ///
+    public static boolean deleteFile(File file) throws IOException {
+        if (!file.exists())
+            return false;
+        file.delete();
+        return true;
+    }
+
+    ///
+    /// DELETES ALL FILES IN AND INCLUDING GIVEN DIRECTORY AT PATH
+    /// RETURNS FALSE IF DIRECTORY NOT FOUND
+    ///
+    public static boolean deleteDirectory(String path) throws IOException {
+        File file = new File(path);
+        if (!file.exists())
+            return false;
+
+        File[] allFiles = file.listFiles();
+        for (File f : allFiles) {
+            deleteDirectory(f);
+        }
+        return file.delete();
+    }
+
+    ///
+    /// DELETES ALL FILES IN AND INCLUDING GIVEN FILE
+    /// RETURNS FALSE IF FILE NOT FOUND
+    ///
+    public static boolean deleteDirectory(File file) throws IOException {
+        File[] allFiles = file.listFiles();
+        if (allFiles != null) {
+            for (File f : allFiles) {
+                deleteDirectory(f);
+            }
+        }
+        return file.delete();
     }
 }

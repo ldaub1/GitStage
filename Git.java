@@ -19,7 +19,7 @@ public class Git {
     }
 
     public static void deleteRepo(String repoPath) throws IOException {
-        if (!Utils.delete(repoPath)) {
+        if (!Utils.deleteDirectory(repoPath)) {
             System.out.println("Repository Does Not Exist");
             return;
         }
