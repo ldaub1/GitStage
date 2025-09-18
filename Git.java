@@ -14,6 +14,8 @@ public class Git {
         }
         Utils.makeDir(repoPath + "/git/objects");
         Utils.makeFile(repoPath + "/git/index");
+        Utils.makeFile(repoPath + "/git/HEAD");
+        System.out.println("Git Repository Created");
     }
 
     public static void deleteRepo(String repoPath) throws IOException {
