@@ -4,8 +4,10 @@ public class Tester {
     public static void main(String[] args) throws IOException {
         // createTestRepos();
         // removeTestRepos();
-        // Git.initializeRepo("ThisIsAReallyGoodRepoName");
-        System.out.println(Utils.SHA1("asdfasdf"));
+        Git.initializeRepo("ProjectFolder");
+        // System.out.println(Utils.SHA1("asdfasdf"));
+        Utils.makeFile("ProjectFolder/ProjectFile", "some bullshit");
+        Git.makeBlob("ProjectFolder/ProjectFile", "ProjectFolder");
     }
 
     public static void createTestRepos() throws IOException {

@@ -33,4 +33,24 @@ public class Git {
         }
         System.out.println("Repository Deleted Successfully");
     }
+
+    ///
+    /// MAKE A BLOB OF THE FILE AT FILEPATH
+    /// INSIDE OF THE GIT/OBJECTS FOLDER WHICH IS FOUND IN THE REPO
+    /// THE NAME OF THE BLOB IS THE SHA1 OF THE CONTENTS
+    /// THE CONTENTS OF THE BLOB ARE THE COMPRESSED ORIGINAL CONTENTS
+    ///
+    public static void makeBlob(String filePath, String repoPath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.out.println("Can't Blob A Nonexistent File!");
+            return;
+        }
+        String fileContents = Utils.readFile(filePath);
+        Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents), fileContents);
+    }
+
+    public static void stageFile(String filePath, String repoPath) throws IOException {
+        makeBlob(filePath, repoPath);
+    }
 }
