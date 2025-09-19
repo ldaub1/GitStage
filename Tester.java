@@ -4,7 +4,8 @@ public class Tester {
     public static void main(String[] args) throws IOException {
         // createTestRepos();
         // removeTestRepos();
-        Git.initializeRepo("ThisIsAReallyGoodRepoName");
+        // Git.initializeRepo("ThisIsAReallyGoodRepoName");
+        System.out.println(Utils.SHA1("asdfasdf"));
     }
 
     public static void createTestRepos() throws IOException {
