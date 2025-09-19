@@ -4,10 +4,17 @@ public class Tester {
     public static void main(String[] args) throws IOException {
         // createTestRepos();
         // removeTestRepos();
-        Git.initializeRepo("ProjectFolder");
         // System.out.println(Utils.SHA1("asdfasdf"));
-        Utils.makeFile("ProjectFolder/ProjectFile", "some bullshit");
+
+        // init repo
+        Git.initializeRepo("ProjectFolder");
+        // make file in project folder
+        Utils.makeFile("ProjectFolder/ProjectFile", "contents");
+        // blob the file in the projects folder
         Git.makeBlob("ProjectFolder/ProjectFile", "ProjectFolder");
+        // make sure it exists
+        System.out.println(
+                Utils.readFile("ProjectFolder/git/objects/" + Utils.SHA1(Utils.readFile("ProjectFolder/ProjectFile"))));
     }
 
     public static void createTestRepos() throws IOException {

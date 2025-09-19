@@ -2,6 +2,13 @@ import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class Utils {
     ///
@@ -164,5 +171,24 @@ public class Utils {
         catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    ///
+    /// COMPRESSES THE FILE AT THE FILE PATH
+    /// RETURNS FALSE IF SOMETHING WENT WRONG
+    ///
+    public static String decompress(String input) throws DataFormatException {
+        Inflater inflater = new Inflater();
+        inflater.setInput(input.toByteArray());
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+
+        while (!inflater.finished()) {
+            int decompressedSize = inflater.inflate(buffer);
+            outputStream.write(buffer, 0, decompressedSize);
+        }
+
+        return outputStream.toByteArray().toString();
     }
 }
