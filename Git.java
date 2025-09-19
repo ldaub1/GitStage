@@ -6,10 +6,12 @@ public class Git {
     /// WITH OBJECTS FOLDER AND INDEX FILE
     ///
     public static void initializeRepo(String repoPath) throws IOException {
+        // initialize main folder, if it doesn't exist already
         if (repoPath.equals(""))
             System.out.println("Can't Name Repository An Empty String");
         Utils.makeDir(repoPath);
 
+        // initialize git folder inside of main folder, unless one already exists
         if (!Utils.makeDir(repoPath + "/git")) {
             System.out.println("Git Repository Already Exists");
             return;
