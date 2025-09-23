@@ -174,12 +174,30 @@ public class Utils {
     }
 
     ///
-    /// COMPRESSES THE FILE AT THE FILE PATH
-    /// RETURNS FALSE IF SOMETHING WENT WRONG
+    /// COMPRESSES THE INPUT AND RETURNS IT
+    ///
+    public static String compress(String input) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(input.getBytes());
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+
+        while (!deflater.finished()) {
+            int compressedSize = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, compressedSize);
+        }
+
+        return outputStream.toString();
+    }
+
+    ///
+    /// DECOMPRESSES THE INPUT AND RETURNS IT
     ///
     public static String decompress(String input) throws DataFormatException {
         Inflater inflater = new Inflater();
-        inflater.setInput(input.toByteArray());
+        inflater.setInput(input.getBytes());
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -189,6 +207,6 @@ public class Utils {
             outputStream.write(buffer, 0, decompressedSize);
         }
 
-        return outputStream.toByteArray().toString();
+        return outputStream.toString();
     }
 }

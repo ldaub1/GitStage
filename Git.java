@@ -47,7 +47,7 @@ public class Git {
             return;
         }
         String fileContents = Utils.readFile(filePath);
-        Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents), fileContents);
+        Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents), Utils.compress(fileContents));
     }
 
     public static void stageFile(String filePath, String repoPath) throws IOException {
