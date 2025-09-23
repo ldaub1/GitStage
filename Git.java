@@ -53,4 +53,12 @@ public class Git {
     public static void stageFile(String filePath, String repoPath) throws IOException {
         makeBlob(filePath, repoPath);
     }
+
+    ///
+    /// ADD THE FILE AT THE FILE PATH TO THE INDEX FOLDER
+    ///
+    public static void indexFile(String filePath, String repoPath) throws IOException {
+        // write the hash of the file + space + name of file into the index file
+        Utils.write(repoPath + "/git/index", Utils.SHA1(Utils.readFile(filePath)) + " " + new File(filePath).getName());
+    }
 }
