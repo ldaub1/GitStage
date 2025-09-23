@@ -12,9 +12,14 @@ public class Tester {
         Utils.makeFile("ProjectFolder/ProjectFile", "contents");
         // blob the file in the projects folder
         Git.makeBlob("ProjectFolder/ProjectFile", "ProjectFolder");
-        // make sure it exists
+        // make sure it exists and we can read it (its compressed)
+        checkForObject("ProjectFolder", "ProjectFolder/ProjectFile");
+    }
+
+    public static void checkForObject(String projectName, String filePath) throws IOException {
         System.out.println(
-                Utils.readFile("ProjectFolder/git/objects/" + Utils.SHA1(Utils.readFile("ProjectFolder/ProjectFile"))));
+                Utils.readFile(
+                        projectName + "/git/objects/" + Utils.SHA1(Utils.readFile(filePath))));
     }
 
     public static void createTestRepos() throws IOException {
