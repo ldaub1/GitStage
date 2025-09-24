@@ -1,7 +1,7 @@
 # GitStage
 
 ! USAGE FOR DUMMIES:
-Run "Main.java". Click the "Run" button above the main method. This will make a project file and initialize the repo for it with the Git.initializeRepo method. Then it makes a file inside of the newly created project folder. Then it stages/blobs that file. It also compresses it. Then it will add index the file by adding its hash/new name next to the original file name. 
+Run "Main.java". Click the "Run" button above the main method. This will make a project file and initialize the repo for it with the Git.initializeRepo method. Then it makes a file inside of the newly created project folder. Then it runs the refresh method, which recursively goes through all relevant project files inside the project repository and makes a blob file for them and adds them to the index file. 
 
 
 This is a simple 'Git' recreation project. The functionality currently includes initializing repositories and hashing/storing files within them.

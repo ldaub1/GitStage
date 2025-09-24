@@ -54,7 +54,7 @@ public class Utils {
             return false;
 
         // write content into the new file
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
         writer.write(content);
 
         writer.close();
@@ -66,7 +66,7 @@ public class Utils {
     ///
     public static void write(String path, String content) throws IOException {
         // write all content into the file
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
         writer.write(content);
 
         writer.close();
