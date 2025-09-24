@@ -50,15 +50,46 @@ public class Git {
         Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents), Utils.compress(fileContents));
     }
 
-    public static void stageFile(String filePath, String repoPath) throws IOException {
-        makeBlob(filePath, repoPath);
-    }
-
     ///
     /// ADD THE FILE AT THE FILE PATH TO THE INDEX FOLDER
     ///
     public static void indexFile(String filePath, String repoPath) throws IOException {
-        // write the hash of the file + space + name of file into the index file
-        Utils.write(repoPath + "/git/index", Utils.SHA1(Utils.readFile(filePath)) + " " + new File(filePath).getName());
+        File indexFile = new File(repoPath + "/git/index");
+
+        // the hash of the file + space + name of file
+        String indexInfo = Utils.SHA1(Utils.readFile(filePath)) + " " + new File(filePath).getName();
+
+        // add newline unless it's first
+        if (indexFile.length() != 0)
+            indexInfo = "\n" + indexInfo;
+
+        // write it unless it already exists
+        if (!Utils.readFile(indexFile.getPath()).contains(indexInfo)) {
+            Utils.write(repoPath + "/git/index", indexInfo);
+        }
+    }
+
+    public static void refresh(String repoPath) throws IOException {
+        File mainRepo = new File(repoPath);
+        File gitRepo = new File(repoPath + "/git");
+        if (!gitRepo.exists())
+            initializeRepo(repoPath);
+
+        File[] projectFiles = mainRepo.listFiles();
+        stageFiles(projectFiles);
+    }
+
+    public static void stageFiles(File[] files) throws IOException {
+        for (File f : files) {
+            if (f.getName().equals("git"))
+                return;
+            if (f.isDirectory()) {
+                File[] subFiles = f.listFiles();
+                stageFiles(subFiles);
+            } else {
+                makeBlob(f.getPath(), f.getPath().substring(0, f.getPath().indexOf("/")));
+                indexFile(f.getPath(), f.getPath().substring(0, f.getPath().indexOf("/")));
+            }
+        }
     }
 }
