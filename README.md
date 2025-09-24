@@ -3,7 +3,6 @@
 ! USAGE FOR DUMMIES:
 Run "Main.java". Click the "Run" button above the main method. This will make a project file and initialize the repo for it with the Git.initializeRepo method. Then it makes a few files inside of the newly created project folder. Then it runs the refresh method, which recursively goes through all relevant project files inside the project repository and makes a blob file for them and adds them to the index file. Then it calls the clear method to delete them.
 
-
 This is a simple 'Git' recreation project. The functionality currently includes initializing repositories and hashing/storing files within them.
 
 FILE STRUCTURE:
