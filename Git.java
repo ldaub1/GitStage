@@ -82,7 +82,7 @@ public class Git {
     public static void stageFiles(File[] files) throws IOException {
         for (File f : files) {
             if (f.getName().equals("git"))
-                return;
+                continue;
             if (f.isDirectory()) {
                 File[] subFiles = f.listFiles();
                 stageFiles(subFiles);
