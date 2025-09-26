@@ -2,13 +2,8 @@ import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class Utils {
     ///
@@ -176,37 +171,36 @@ public class Utils {
     ///
     /// COMPRESSES THE INPUT AND RETURNS IT
     ///
-    public static String compress(String input) {
-        Deflater deflater = new Deflater();
-        deflater.setInput(input.getBytes());
-        deflater.finish();
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-
-        while (!deflater.finished()) {
-            int compressedSize = deflater.deflate(buffer);
-            outputStream.write(buffer, 0, compressedSize);
+    public static byte[] compress(String str) throws IOException {
+        int size = 1024;
+        BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(str.getBytes()));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        GZIPOutputStream gzip = new GZIPOutputStream(baos);
+        byte[] buffer = new byte[size];
+        int len;
+        while ((len = bis.read(buffer, 0, size)) != -1) {
+            gzip.write(buffer, 0, len);
         }
-
-        return outputStream.toString();
+        gzip.finish();
+        bis.close();
+        gzip.close();
+        return baos.toByteArray();
     }
 
     ///
     /// DECOMPRESSES THE INPUT AND RETURNS IT
     ///
-    public static String decompress(String input) throws DataFormatException {
-        Inflater inflater = new Inflater();
-        inflater.setInput(input.getBytes());
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-
-        while (!inflater.finished()) {
-            int decompressedSize = inflater.inflate(buffer);
-            outputStream.write(buffer, 0, decompressedSize);
+    public static String uncompress(byte[] data) throws IOException {
+        int size = 1024;
+        GZIPInputStream gzip = new GZIPInputStream(new ByteArrayInputStream(data));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[size];
+        int len;
+        while ((len = gzip.read(buffer, 0, size)) != -1) {
+            baos.write(buffer, 0, len);
         }
-
-        return outputStream.toString();
+        gzip.close();
+        baos.close();
+        return new String(baos.toByteArray());
     }
 }
