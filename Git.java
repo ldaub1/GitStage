@@ -1,6 +1,8 @@
 import java.io.*;
 
 public class Git {
+    private static boolean compression = true;
+
     ///
     /// INITIALIZES REPOSITORY INCLUDING GIT FOLDER
     /// WITH OBJECTS FOLDER AND INDEX FILE
@@ -41,13 +43,25 @@ public class Git {
     /// THE CONTENTS OF THE BLOB ARE THE COMPRESSED ORIGINAL CONTENTS
     ///
     public static void makeBlob(String filePath, String repoPath) throws IOException {
-        File file = new File(filePath);
-        if (!file.exists()) {
-            System.out.println("Can't Blob A Nonexistent File!");
-            return;
+        if (compression) {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                System.out.println("Can't Blob A Nonexistent File!");
+                return;
+            }
+            String fileContents = Utils.readFile(filePath);
+            Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(Utils.compress(fileContents).toString()),
+                    Utils.compress(fileContents).toString());
+        } else {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                System.out.println("Can't Blob A Nonexistent File!");
+                return;
+            }
+            String fileContents = Utils.readFile(filePath);
+            Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents),
+                    fileContents);
         }
-        String fileContents = Utils.readFile(filePath);
-        Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents), Utils.compress(fileContents).toString());
     }
 
     ///
@@ -57,7 +71,7 @@ public class Git {
         File indexFile = new File(repoPath + "/git/index");
 
         // the hash of the file + space + name of file
-        String indexInfo = Utils.SHA1(Utils.readFile(filePath)) + " " + filePath.substring(filePath.indexOf("/"));
+        String indexInfo = Utils.SHA1(Utils.readFile(filePath)) + " " + filePath.substring(filePath.indexOf("/") + 1);
 
         // add newline unless it's first
         if (indexFile.length() != 0)
