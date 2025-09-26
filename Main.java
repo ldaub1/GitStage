@@ -17,7 +17,7 @@ public class Main {
 
         // deleting the files for those weird-ahh stretch goals. delete this if you want
         // to see the actual stuff it creates
-        clearFiles("ProjectFolder");
+        // clearFiles("ProjectFolder");
     }
 
     public static void clearFiles(String repo) throws IOException {

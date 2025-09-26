@@ -50,7 +50,7 @@ public class Git {
                 return;
             }
             String fileContents = Utils.readFile(filePath);
-            Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents),
+            Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(Utils.compress(fileContents).toString()),
                     Utils.compress(fileContents).toString());
         } else {
             File file = new File(filePath);
