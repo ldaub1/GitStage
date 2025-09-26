@@ -47,7 +47,7 @@ public class Git {
             return;
         }
         String fileContents = Utils.readFile(filePath);
-        Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents), Utils.compress(fileContents));
+        Utils.makeFile(repoPath + "/git/objects/" + Utils.SHA1(fileContents), Utils.compress(fileContents).toString());
     }
 
     ///
@@ -57,7 +57,7 @@ public class Git {
         File indexFile = new File(repoPath + "/git/index");
 
         // the hash of the file + space + name of file
-        String indexInfo = Utils.SHA1(Utils.readFile(filePath)) + " " + new File(filePath).getName();
+        String indexInfo = Utils.SHA1(Utils.readFile(filePath)) + " " + filePath.substring(filePath.indexOf("/"));
 
         // add newline unless it's first
         if (indexFile.length() != 0)
