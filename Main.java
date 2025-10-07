@@ -1,5 +1,6 @@
 import java.io.*;
 
+
 public class Main {
     public static void main(String[] args) throws IOException {
         // initializes repo
@@ -7,6 +8,8 @@ public class Main {
         // makes test files
         Utils.makeFile("ProjectFolder/CoolFile", "RANDOM DATA");
         Utils.makeFile("ProjectFolder/otherCoolFile", "ASDFFFF");
+        Utils.makeFile("ProjectFolder/otherCoolFile2", "other cool file 2");
+        Utils.makeFile("ProjectFolder/CoolFile2", "RANDOM DATA PART TWOOO");
         // blob and index the files
         Git.refresh("ProjectFolder");
 
@@ -18,9 +21,14 @@ public class Main {
         // deleting the files for those weird-ahh stretch goals. delete this if you want
         // to see the actual stuff it creates
         // clearFiles("ProjectFolder");
+
+
+        Git.recursiveBuildTree();
+
     }
 
     public static void clearFiles(String repo) throws IOException {
         Utils.deleteDirectory(repo);
     }
+
 }

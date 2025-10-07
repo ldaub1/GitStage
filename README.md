@@ -26,3 +26,22 @@ USAGE:
 EDGE CASES:
     The Utils will mostly all work or not, but they typically won't throw an error. They return true if they work and false if they don't. They probably won't work if you input a nonexistent file path or name. 
     The Git class is also similarly constructed. Initializing should always work, unless you input an empty string as the file name. Deleting should always work, as long as you input a real file. 
+
+
+MAKING A TREE FILE: 
+    The following methods are used to make a tree file: makeInitialWorkingList(), order(), getMaxSlashes(), maxRows(), getParentPath(), groupByParentPath(), createTreeHash(), buildTree(), 
+    recursiveBuildTree(), recursiveBuildTreeHelper()
+
+    In order to create a tree file all you have to do is run recursiveBuildTreeHelper()
+
+    the helper methods are:  makeInitialWorkingList(), order(), getMaxSlashes(), maxRows(), getParentPath(), groupByParentPath(), createTreeHash(), buildTree()
+        - makeInitialWorkingList() = reads the index file and makes a file that has exactly what the index file has except the word "blob" is now infront of each line. The private instance variable workingListAL is equal to the output of this method, which is an arraylist in which each element is one line from this working file. For ex, elmenent zero of workingListAL would be a string that is something like this: "blob 23229367832881236827168236 FolderName/file" 
+        - order() = looks at the workingListAL and determines how many slashes (\) that each element in workingListAL has. The method then returns an ArrayList that states the number of slashes for each element in workingListAL based on element. For example, if the arraylist returned in order() has the number 2 in at index zero, then at index zero in workingListAL there is 2 slashes. 
+        - getMaxSlashes() = looks at the arraylist created in order() and determines what is the most number of slashes 
+        - maxRows() = creates an arraylist that contains each line in the workingFile that has the highest number of slashes. For ex: if the max number of slashes is 3, then maxRows() creates an arraylist in which each element has 3 slashes 
+        - getParentPath() = given a string, it determines the parent path. ie. it returns everything before the last \
+        - groupByParentPath() = creates a HashMap in which the key is the parent folder and the value is all the files that are in that parent folder. 
+        - createTreeHash() = hashes all the files in a given folder, this will become the hash for the tree file for this folder 
+        - buildTree() = where all the methods above (except makeInitialWorkingList()) are actually used! First, it creates a HashMap in which the key is a parent folder and the vaule is all the files in that parent folder. The HashMap is made for all paths that were identified as having the max number of slashes. It then creates a newWorkingList ArrayList that after the tree is created will be used to update the workinglist. It then loops through the workingListAL and determiens if, at a given index, the element has the max number of slashes. If it doesn't then it is added to the newWorkingList. It then creates an arraylist called parentFolders that consists of all the folders that meet the max slash criteria. It also creates another arraylist called filesInFolder that has all the files that are in a parent folder. The createTreeHash() method is then used to create a tree hash given the elements in filesInFolder for that parent folder. That hash, along with word "tree" and the name of the folder are added to the newWorkingList Array List. The workingFile file is then updated based on the content of newWorkingList ArrayList. Finally, workingListAL is updated to be the same as newWorkingList so that is updated for the next iteration. This method will return true if the tree file is created. 
+    the main methods are: recursiveBuildTree(), and recursiveBuildTreeHelper()
+      - both of these methods essentially just keep making tree files (calling buildTree()) UNTIL either workingListAL is size one (aka only has the root) OR the max slashes equals zero. Checks the workingListAL condition first. 
