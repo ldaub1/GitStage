@@ -13,6 +13,7 @@ public class Main {
         Utils.makeFile("ProjectFolder/CoolFile2", "RANDOM DATA PART TWOOO");
         // blob and index the files
         Git.refresh("ProjectFolder");
+        Git.buildCommit("author", "wow message here");
 
         // // verify they match
         // System.out.println("INDEX FILE CONTENTS: \n" + Utils.readFile("ProjectFolder/git/index"));

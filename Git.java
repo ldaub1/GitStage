@@ -13,6 +13,7 @@ import javax.print.attribute.HashAttributeSet;
 public class Git {
     private static boolean compression = false;
     private static ArrayList<String> workingListAL = new ArrayList<String>();
+    private static String path;
 
     ///
     /// INITIALIZES REPOSITORY INCLUDING GIT FOLDER
@@ -23,6 +24,8 @@ public class Git {
         if (repoPath.equals(""))
             System.out.println("Can't Name Repository An Empty String");
         Utils.makeDir(repoPath);
+
+        path = repoPath;
 
         // initialize git folder inside of main folder, unless one already exists
         if (!Utils.makeDir(repoPath + "/git")) {
@@ -360,9 +363,9 @@ public class Git {
         String treeHash = Utils.readFile("workingFile.txt").split(" ")[1];
         StringBuilder commitFileContents = new StringBuilder();
         commitFileContents.append("tree: " + treeHash);
-        String headContents = Utils.readFile("HEAD");
+        String headContents = Utils.readFile(path + "/git/HEAD");
         String parentHash = "";
-        if (!headContents.equals("\n")) {
+        if (!headContents.equals("")) {
             parentHash = headContents.split(" ")[1];
             commitFileContents.append("\nparent: " + parentHash);
         }
@@ -372,8 +375,8 @@ public class Git {
         commitFileContents.append("\ndate: " + timeStampMillis);
         commitFileContents.append("\nmessage: " + message);
         String commitHash = Utils.SHA1(commitFileContents.toString());
-        Utils.makeFile("ProjectFolder/git/objects/" + commitHash, commitFileContents.toString());
-        Utils.write("HEAD", commitHash);
+        Utils.makeFile(path + "/git/objects/" + commitHash, commitFileContents.toString());
+        Utils.write(path + "/git/HEAD", commitHash);
     }
 }
 
