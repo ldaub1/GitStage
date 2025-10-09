@@ -1,16 +1,17 @@
 import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
 import javax.print.attribute.HashAttributeSet;
 
-import org.jcp.xml.dsig.internal.dom.Utils;
+// import org.jcp.xml.dsig.internal.dom.Utils;
 
 public class Git {
-    private static boolean compression = true;
+    private static boolean compression = false;
     private static ArrayList<String> workingListAL = new ArrayList<String>();
 
     ///
@@ -31,6 +32,7 @@ public class Git {
         Utils.makeDir(repoPath + "/git/objects");
         Utils.makeFile(repoPath + "/git/index");
         Utils.makeFile(repoPath + "/git/HEAD");
+        Utils.makeFile(repoPath, "git/objects/" + Utils.SHA1(""));
         System.out.println("Git Repository Created");
     }
 
@@ -111,8 +113,8 @@ public class Git {
                 File[] subFiles = f.listFiles();
                 stageFiles(subFiles);
             } else {
-                makeBlob(f.getPath(), f.getPath().substring(0, f.getPath().indexOf("\\"))); // could this be erroring because pcs use \ and macbooks use /? --> changed "/" to "\\""
-                indexFile(f.getPath(), f.getPath().substring(0, f.getPath().indexOf("\\")));
+                makeBlob(f.getPath(), f.getPath().substring(0, f.getPath().indexOf("/"))); // could this be erroring because pcs use \ and macbooks use /? --> changed "/" to "\\""
+                indexFile(f.getPath(), f.getPath().substring(0, f.getPath().indexOf("/")));
             }
         }
     }
@@ -183,7 +185,7 @@ public class Git {
                 j++;
                 word = word + contentOfWorkinglist.charAt(i) + "";
             } else {
-                System.out.println(word);
+                // System.out.println(word);
                 workingListcontentAL.add(word);
                 word = "";
                 j = 0;
@@ -204,7 +206,7 @@ public class Git {
         // read through workingListcontentAL and count all the slashes in each word, add the number of slashes to a new arraylist 
         for (int j = 0; j < workingListPaths.size(); j++) {
             for (int k = 0; k < workingListPaths.get(j).length(); k++) {
-                if (workingListPaths.get(j).charAt(k) == '\\') {
+                if (workingListPaths.get(j).charAt(k) == '/') {
                     numberOfSlashes++;
                 }
             }
@@ -249,7 +251,7 @@ public class Git {
 
     // given a string, it getParentPath() will return that string except everything that comes after the last \
     public static String getParentPath(String path) throws IOException {
-        int lastSlash = path.lastIndexOf('\\');
+        int lastSlash = path.lastIndexOf('/');
         if (lastSlash == -1) {
             return "";
         }
@@ -352,6 +354,26 @@ public class Git {
         if (buildTree()) {
             recursiveBuildTreeHelper();
         }
+    }
+
+    public static void buildCommit(String author, String message) throws IOException {
+        String treeHash = Utils.readFile("workingFile.txt").split(" ")[1];
+        StringBuilder commitFileContents = new StringBuilder();
+        commitFileContents.append("tree: " + treeHash);
+        String headContents = Utils.readFile("HEAD");
+        String parentHash = "";
+        if (!headContents.equals("\n")) {
+            parentHash = headContents.split(" ")[1];
+            commitFileContents.append("\nparent: " + parentHash);
+        }
+        commitFileContents.append("\nauthor: " + author);
+        Instant instant = Instant.now();
+        long timeStampMillis = instant.toEpochMilli();
+        commitFileContents.append("\ndate: " + timeStampMillis);
+        commitFileContents.append("\nmessage: " + message);
+        String commitHash = Utils.SHA1(commitFileContents.toString());
+        Utils.makeFile("ProjectFolder/git/objects/" + commitHash, commitFileContents.toString());
+        Utils.write("HEAD", commitHash);
     }
 }
 
