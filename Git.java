@@ -363,10 +363,12 @@ public class Git {
         String treeHash = Utils.readFile("workingFile.txt").split(" ")[1];
         StringBuilder commitFileContents = new StringBuilder();
         commitFileContents.append("tree: " + treeHash);
-        String headContents = Utils.readFile(path + "/git/HEAD");
-        String parentHash = "";
-        if (!headContents.equals("")) {
-            parentHash = headContents.split(" ")[1];
+        String headHash = Utils.readFile(path + "/git/HEAD").strip();
+        System.out.println(headHash);
+        if (!headHash.equals("")) {
+            String headPath = path + "/git/objects/" + headHash;
+            String headContents = Utils.readFile(headPath);
+            String parentHash = headContents.substring(headContents.indexOf(" ") + 1, headContents.indexOf("\n"));
             commitFileContents.append("\nparent: " + parentHash);
         }
         commitFileContents.append("\nauthor: " + author);

@@ -14,6 +14,7 @@ public class Main {
         // blob and index the files
         Git.refresh("ProjectFolder");
         Git.buildCommit("author", "wow message here");
+        Git.buildCommit("author2", "wow 2nd message here");
 
         // // verify they match
         // System.out.println("INDEX FILE CONTENTS: \n" + Utils.readFile("ProjectFolder/git/index"));
