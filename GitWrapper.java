@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class GitWrapper {
 
     /**
@@ -6,8 +8,12 @@ public class GitWrapper {
      * and initial files (index, HEAD) required for a Git repository.
      */
     public void init() {
-        // to-do: implement functionality here
-    };
+        try {
+            Git.initializeRepo("ProjectFolder");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Stages a file for the next commit.
