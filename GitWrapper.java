@@ -23,9 +23,11 @@ public class GitWrapper {
      * If the file is already in the index, it does nothing.
      * If the file is successfully staged, it creates a blob for the file.
      * @param filePath The path to the file to be staged.
+     * @throws IOException 
      */
-    public void add(String filePath) {
-        // to-do: implement functionality here
+    public void add(String filePath) throws IOException {
+        if (Git.indexFile(filePath, "ProjectFolder"));
+            Git.makeBlob(filePath, "ProjectFolder");
     };
 
     /**

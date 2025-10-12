@@ -82,20 +82,22 @@ public class Git {
     ///
     /// ADD THE FILE AT THE FILE PATH TO THE INDEX FOLDER
     ///
-    public static void indexFile(String filePath, String repoPath) throws IOException {
+    public static boolean indexFile(String filePath, String repoPath) throws IOException {
         File indexFile = new File(repoPath + "/git/index");
 
         // the hash of the file + space + name of file
         String indexInfo = Utils.SHA1(Utils.readFile(filePath)) + " " + filePath.substring(filePath.indexOf("/") + 1);
 
-        // add newline unless it's first
-        if (indexFile.length() != 0)
-            indexInfo = "\n" + indexInfo;
-
         // write it unless it already exists
         if (!Utils.readFile(indexFile.getPath()).contains(indexInfo)) {
+            // add newline unless it's first (moved to fix edge case)
+            if (indexFile.length() != 0)
+                indexInfo = "\n" + indexInfo;
+
             Utils.write(repoPath + "/git/index", indexInfo);
+            return true;
         }
+        return false;
     }
 
     public static void refresh(String repoPath) throws IOException {
