@@ -54,5 +54,7 @@ GitTester
 clearFiles(); | same as above but can no longer set repo name
 
 testInit(gw); | initializes repo testing all cases (gw doesnt let you set names so this doesnt either -> all defaulted to "ProjectFolder" in gw)
+
 testFileAddition(gw); | tests all the cases for adding + blobing files
+
 testBuildCommit(gw); | testing 2 commits, references previous
