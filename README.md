@@ -12,7 +12,7 @@ Git.java
     Includes the most important methods for creating and deleting repos. Most methods just call on helper methods from Utils.java. 
 Utils.java
     The utilities class. This includes methods mainly for file/repo creation/modification/deletion. It also contains methods for compressing and decompressing code.
-Tester.java
+Tester.java --> dont know what happened but this no longer exists ?????????? so i remade it to do the final test w/ wrapper
     The tester class. This creates 1000 repos and then deletes them. It takes about one second. If this isn't sufficient testing, I don't know what is. It also has methods to check for file existance within a repository and stuff. 
 
 USAGE:
@@ -45,3 +45,7 @@ MAKING A TREE FILE:
         - buildTree() = where all the methods above (except makeInitialWorkingList()) are actually used! First, it creates a HashMap in which the key is a parent folder and the vaule is all the files in that parent folder. The HashMap is made for all paths that were identified as having the max number of slashes. It then creates a newWorkingList ArrayList that after the tree is created will be used to update the workinglist. It then loops through the workingListAL and determiens if, at a given index, the element has the max number of slashes. If it doesn't then it is added to the newWorkingList. It then creates an arraylist called parentFolders that consists of all the folders that meet the max slash criteria. It also creates another arraylist called filesInFolder that has all the files that are in a parent folder. The createTreeHash() method is then used to create a tree hash given the elements in filesInFolder for that parent folder. That hash, along with word "tree" and the name of the folder are added to the newWorkingList Array List. The workingFile file is then updated based on the content of newWorkingList ArrayList. Finally, workingListAL is updated to be the same as newWorkingList so that is updated for the next iteration. This method will return true if the tree file is created. 
     the main methods are: recursiveBuildTree(), and recursiveBuildTreeHelper()
       - both of these methods essentially just keep making tree files (calling buildTree()) UNTIL either workingListAL is size one (aka only has the root) OR the max slashes equals zero. Checks the workingListAL condition first. 
+
+BUGS | (fixed very very basic like how it just fully wasn't working bc pc -> windows uh still dosnt work but works barely enough for my section -> note that when adding files not in folders it doesnt ever add the root tree to objects so the tree hash in index isnt there ._.)
+
+buildCommit(String author, String message) | Builds the commit, taking in author / message creates commit file, adds to objects puts hash in head

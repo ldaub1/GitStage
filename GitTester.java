@@ -12,11 +12,6 @@ public class GitTester {
         testFileAddition(gw);
         testBuildCommit(gw);
 
-        // gw.add("myProgram/hello.txt");
-        // gw.add("myProgram/inner/world.txt");
-        // gw.commit("John Doe", "Initial commit");
-        // gw.checkout("1234567890");
-
     }
 
     public static void testBuildCommit(GitWrapper gw) {
@@ -52,8 +47,15 @@ public class GitTester {
         }
         try {
             System.out.println("\n[adding file (base) + more than once]");
-            gw.add("testFile.txt");
-            gw.add("testFile.txt");
+            gw.add("ProjectFolder/testFile.txt");
+            gw.add("ProjectFolder/testFile.txt");
+            System.out.println("index contents | " + Utils.readFile("ProjectFolder/git/index"));
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        try {
+            System.out.println("\n[adding file in folder");
+            gw.add("ProjectFolder/testFiles/testFile.txt");
             System.out.println("index contents | " + Utils.readFile("ProjectFolder/git/index"));
         } catch (IOException e) {
             System.out.println(e);

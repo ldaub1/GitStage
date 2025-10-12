@@ -367,10 +367,8 @@ public class Git {
         commitFileContents.append("tree: " + treeHash);
         String headHash = Utils.readFile(path + "/git/HEAD").strip();
         if (!headHash.equals("")) {
-            String headPath = path + "/git/objects/" + headHash;
-            String headContents = Utils.readFile(headPath);
-            String parentHash = headContents.substring(headContents.indexOf(" ") + 1, headContents.indexOf("\n"));
-            commitFileContents.append("\nparent: " + parentHash);
+            String headPath = headHash;
+            commitFileContents.append("\nparent: " + headPath);
         }
         commitFileContents.append("\nauthor: " + author);
         Instant instant = Instant.now();
