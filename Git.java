@@ -82,20 +82,22 @@ public class Git {
     ///
     /// ADD THE FILE AT THE FILE PATH TO THE INDEX FOLDER
     ///
-    public static void indexFile(String filePath, String repoPath) throws IOException {
+    public static boolean indexFile(String filePath, String repoPath) throws IOException {
         File indexFile = new File(repoPath + "/git/index");
 
         // the hash of the file + space + name of file
         String indexInfo = Utils.SHA1(Utils.readFile(filePath)) + " " + filePath.substring(filePath.indexOf("/") + 1);
 
-        // add newline unless it's first
-        if (indexFile.length() != 0)
-            indexInfo = "\n" + indexInfo;
-
         // write it unless it already exists
         if (!Utils.readFile(indexFile.getPath()).contains(indexInfo)) {
+            // add newline unless it's first (moved to fix edge case)
+            if (indexFile.length() != 0)
+                indexInfo = "\n" + indexInfo;
+
             Utils.write(repoPath + "/git/index", indexInfo);
+            return true;
         }
+        return false;
     }
 
     public static void refresh(String repoPath) throws IOException {
@@ -359,17 +361,15 @@ public class Git {
         }
     }
 
-    public static void buildCommit(String author, String message) throws IOException {
+    public static String buildCommit(String author, String message) throws IOException {
+        Git.recursiveBuildTree();
         String treeHash = Utils.readFile("workingFile.txt").split(" ")[1];
         StringBuilder commitFileContents = new StringBuilder();
         commitFileContents.append("tree: " + treeHash);
         String headHash = Utils.readFile(path + "/git/HEAD").strip();
-        System.out.println(headHash);
         if (!headHash.equals("")) {
-            String headPath = path + "/git/objects/" + headHash;
-            String headContents = Utils.readFile(headPath);
-            String parentHash = headContents.substring(headContents.indexOf(" ") + 1, headContents.indexOf("\n"));
-            commitFileContents.append("\nparent: " + parentHash);
+            String headPath = headHash;
+            commitFileContents.append("\nparent: " + headPath);
         }
         commitFileContents.append("\nauthor: " + author);
         Instant instant = Instant.now();
@@ -379,6 +379,7 @@ public class Git {
         String commitHash = Utils.SHA1(commitFileContents.toString());
         Utils.makeFile(path + "/git/objects/" + commitHash, commitFileContents.toString());
         Utils.write(path + "/git/HEAD", commitHash);
+        return commitHash;
     }
 }
 
