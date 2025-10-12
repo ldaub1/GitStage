@@ -22,9 +22,15 @@ public class GitTester {
     public static void testBuildCommit(GitWrapper gw) {
         System.out.println("\n--TEST COMMIT--");
         try {
+            System.out.println("[1st commit]");
             String commitHash = gw.commit("author", "message");
             System.out.println("sha1 | " + commitHash);
             System.out.println("hash contents | " + Utils.readFile("ProjectFolder/git/objects/" + commitHash));
+
+            System.out.println("\n[2nd commit]");
+            String commitHash2 = gw.commit("author", "message");
+            System.out.println("sha1 | " + commitHash2);
+            System.out.println("hash contents | " + Utils.readFile("ProjectFolder/git/objects/" + commitHash2));
         } catch (IOException e) {
             e.printStackTrace();
         }

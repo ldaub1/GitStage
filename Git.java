@@ -366,7 +366,6 @@ public class Git {
         StringBuilder commitFileContents = new StringBuilder();
         commitFileContents.append("tree: " + treeHash);
         String headHash = Utils.readFile(path + "/git/HEAD").strip();
-        System.out.println(headHash);
         if (!headHash.equals("")) {
             String headPath = path + "/git/objects/" + headHash;
             String headContents = Utils.readFile(headPath);
