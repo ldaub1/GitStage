@@ -362,6 +362,7 @@ public class Git {
     }
 
     public static String buildCommit(String author, String message) throws IOException {
+        Git.recursiveBuildTree();
         String treeHash = Utils.readFile("workingFile.txt").split(" ")[1];
         StringBuilder commitFileContents = new StringBuilder();
         commitFileContents.append("tree: " + treeHash);

@@ -48,4 +48,11 @@ MAKING A TREE FILE:
 
 BUGS | (fixed very very basic like how it just fully wasn't working bc pc -> windows uh still dosnt work but works barely enough for my section -> note that when adding files not in folders it doesnt ever add the root tree to objects so the tree hash in index isnt there ._.)
 
-buildCommit(String author, String message) | Builds the commit, taking in author / message creates commit file, adds to objects puts hash in head
+buildCommit(String author, String message) | Builds the commit, taking in author / message creates commit file, adds to objects puts hash in head (genuinely cannot tell if im using the correct thing to build the tree here??? seems like it should just be recursiveBuildTree but readme says to use the helper which doesnt make sense? from the code itself it seems like it should be the normal one so that is what is used but pc -> mac broke everything so going with that)
+
+GitTester
+clearFiles(); | same as above but can no longer set repo name
+
+testInit(gw); | initializes repo testing all cases (gw doesnt let you set names so this doesnt either -> all defaulted to "ProjectFolder" in gw)
+testFileAddition(gw); | tests all the cases for adding + blobing files
+testBuildCommit(gw); | testing 2 commits, references previous

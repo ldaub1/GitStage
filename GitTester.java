@@ -32,6 +32,13 @@ public class GitTester {
     }
     
     public static void testFileAddition(GitWrapper gw) {
+        try {
+            Utils.makeDir("ProjectFolder/testFiles");
+            Utils.makeFile("ProjectFolder/testFiles/testFile.txt", "hello");
+            Utils.makeFile("ProjectFolder/testFile.txt", "hello.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("\n--TEST FILE ADDITION--");
         try {
             System.out.println("[adding dir]");
