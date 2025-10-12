@@ -48,10 +48,10 @@ public class GitWrapper {
      * @param author  The name of the author making the commit.
      * @param message The commit message describing the changes.
      * @return The SHA1 hash of the new commit.
+     * @throws IOException 
      */
-    public String commit(String author, String message) {
-        // to-do: implement functionality here
-        return "";
+    public String commit(String author, String message) throws IOException {
+        return Git.buildCommit("author", "message");
     };
 
      /**

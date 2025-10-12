@@ -361,7 +361,7 @@ public class Git {
         }
     }
 
-    public static void buildCommit(String author, String message) throws IOException {
+    public static String buildCommit(String author, String message) throws IOException {
         String treeHash = Utils.readFile("workingFile.txt").split(" ")[1];
         StringBuilder commitFileContents = new StringBuilder();
         commitFileContents.append("tree: " + treeHash);
@@ -381,6 +381,7 @@ public class Git {
         String commitHash = Utils.SHA1(commitFileContents.toString());
         Utils.makeFile(path + "/git/objects/" + commitHash, commitFileContents.toString());
         Utils.write(path + "/git/HEAD", commitHash);
+        return commitHash;
     }
 }
 
